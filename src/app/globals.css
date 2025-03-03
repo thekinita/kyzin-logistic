@@ -1,8 +1,10 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @theme {
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  --color-accent: #f15827;
 }
 
 :root {

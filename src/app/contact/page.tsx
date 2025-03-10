@@ -3,11 +3,11 @@
 import { useState } from 'react'
 import { Button } from '@headlessui/react'
 import formatPhoneNumber from '@/utils/formatPhoneNumber'
-import { SelectForm } from '@/components/SelectForm'
-import { InputForm } from '@/components/InputForm'
-import { CheckboxForm } from '@/components/CheckboxForm'
-import { NumberInputForm } from '@/components/NumberInputForm'
-import { DateInputForm } from '@/components/DateInputForm'
+import { SelectForm } from '@/components/form-wrappers/SelectForm'
+import { InputForm } from '@/components/form-wrappers/InputForm'
+import { CheckboxForm } from '@/components/form-wrappers/CheckboxForm'
+import { NumberInputForm } from '@/components/form-wrappers/NumberInputForm'
+import { DateInputForm } from '@/components/form-wrappers/DateInputForm'
 import { TransportCost } from '@/components/TransportCost'
 import { PaidWaiting } from '@/components/PaidWaiting'
 import { calculateCost } from '@/utils/calculateCost'
@@ -126,7 +126,7 @@ export default function ContactForm() {
   }
 
   return (
-    <div className='min-h-screen bg-gray-100 dark:bg-111 py-8'>
+    <div className='min-h-screen py-8'>
       <form onSubmit={handleSubmit} className='max-w-2xl mx-auto p-6'>
         <a href='/'>
           <ArrowLeftIcon className='w-7 absolute top-16 left-10 sm:left-16 hover:fill-accent duration-200' />

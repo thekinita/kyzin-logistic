@@ -1,6 +1,11 @@
 import CTA from '@/components/CTA'
-import Image from 'next/image'
+import Opportunities from '@/components/Opportunities'
 
 export default function Home() {
-  return <CTA />
+  return (
+    <main className='text-forlight dark:text-fordark'>
+      <CTA />
+      <Opportunities />
+    </main>
+  )
 }

@@ -1,6 +1,7 @@
 import CTA from '@/components/CTA'
 import DeliveryAlgorithm from '@/components/DeliveryAlgorithm'
 import Opportunities from '@/components/Opportunities'
+import Stats from '@/components/Stats'
 
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
       <CTA />
       <Opportunities />
       <DeliveryAlgorithm />
+      <Stats />
     </main>
   )
 }

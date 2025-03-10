@@ -1,8 +1,10 @@
 const Opportunities = () => {
   return (
     <section className='relative flex flex-col lg:flex-row max-w-7xl mx-auto py-20 px-6'>
-      <div className='lg:w-1/3 lg:pr-10 sticky top-10 h-fit self-start'>
-        <h2 className='text-3xl font-bold'>Возможности для вашего бизнеса</h2>
+      <div className='lg:w-1/3 lg:pr-10 pb-10 sm:sticky top-10 h-fit self-start'>
+        <h2 className='text-3xl font-bold text-accent'>
+          Возможности для вашего бизнеса
+        </h2>
       </div>
       <div className='lg:w-2/3 space-y-8'>
         <div>

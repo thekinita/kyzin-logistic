@@ -126,14 +126,12 @@ export default function ContactForm() {
   }
 
   return (
-    <div className='min-h-screen py-8'>
+    <main className='min-h-screen py-8 text-forlight dark:text-fordark'>
       <form onSubmit={handleSubmit} className='max-w-2xl mx-auto p-6'>
         <a href='/'>
           <ArrowLeftIcon className='w-7 absolute top-16 left-10 sm:left-16 hover:fill-accent duration-200' />
         </a>
-        <h2 className='text-4xl font-bold mb-6 text-gray-900 dark:text-white text-center'>
-          Заявка
-        </h2>
+        <h2 className='text-4xl font-bold mb-6 text-center'>Заявка</h2>
 
         <InputForm
           label='Название организации'
@@ -335,6 +333,6 @@ export default function ContactForm() {
           </Button>
         </div>
       </form>
-    </div>
+    </main>
   )
 }

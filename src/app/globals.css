@@ -5,6 +5,8 @@
 
   --color-accent: #f15827;
   --color-111: #111111;
+  --color-forlight: #364153;
+  --color-fordark: #d1d5dc;
 
   --animate-fade-up: fade-up 0.8s ease-out forwards;
   --animate-ticker: ticker 20s linear infinite;

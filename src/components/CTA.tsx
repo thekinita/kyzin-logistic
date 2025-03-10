@@ -11,7 +11,7 @@ export default function CTA() {
           <div className='mt-10'>
             <a
               href='contact'
-              className='sm:text-2xl text-base font-semibold text-accent hover:text-black dark:hover:text-white duration-200'
+              className='sm:text-2xl text-base font-semibold text-accent hover:text-forlight dark:hover:text-fordark duration-200'
             >
               Оставить заявку <span aria-hidden='true'>→</span>
             </a>

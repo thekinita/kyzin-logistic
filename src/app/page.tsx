@@ -1,3 +1,4 @@
+import Campaigning from '@/components/Campaigning'
 import CTA from '@/components/CTA'
 import DeliveryAlgorithm from '@/components/DeliveryAlgorithm'
 import Opportunities from '@/components/Opportunities'
@@ -12,6 +13,7 @@ export default function Home() {
       <DeliveryAlgorithm />
       <Stats />
       <Testimonials />
+      <Campaigning />
     </main>
   )
 }

@@ -1,9 +1,20 @@
+'use client'
+
+import { useEffect } from 'react'
+
 type TickerProps = {
   images: { url: string; alt: string }[]
 }
 
 const Ticker = ({ images }: TickerProps) => {
   const ariaHidden = [false, true]
+
+  useEffect(() => {
+    images.forEach((image) => {
+      const img = new Image()
+      img.src = image.url
+    })
+  }, [images])
 
   return (
     <div

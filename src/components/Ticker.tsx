@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect } from 'react'
+import { motion } from 'framer-motion'
 
 type TickerProps = {
   images: { url: string; alt: string }[]
@@ -17,7 +18,11 @@ const Ticker = ({ images }: TickerProps) => {
   }, [images])
 
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.5, delay: 1 }}
       className='grid overflow-hidden'
       style={{
         WebkitMaskImage:
@@ -47,7 +52,7 @@ const Ticker = ({ images }: TickerProps) => {
           </ul>
         ))}
       </div>
-    </div>
+    </motion.div>
   )
 }
 

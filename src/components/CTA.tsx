@@ -37,19 +37,19 @@ export default function CTA() {
         images={[
           {
             alt: 'wildberries',
-            url: '/ticker/wildberries.webp'
+            url: './ticker/wildberries.webp'
           },
           {
             alt: 'ozon',
-            url: '/ticker/ozon.webp'
+            url: './ticker/ozon.webp'
           },
           {
             alt: 'lamoda',
-            url: '/ticker/lamoda.webp'
+            url: './ticker/lamoda.webp'
           },
           {
             alt: 'yandex_market',
-            url: '/ticker/ya_market.webp'
+            url: './ticker/ya_market.webp'
           }
         ]}
       />

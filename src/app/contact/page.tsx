@@ -12,7 +12,8 @@ import { TransportCost } from '@/components/calculator/TransportCost'
 import { PaidWaiting } from '@/components/calculator/PaidWaiting'
 import { calculateCost } from '@/utils/calculateCost'
 import { ArrowLeftIcon } from '@heroicons/react/16/solid'
-import { redirect, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 const transportTypes = ['Маркетплейс', 'Транспортировка'] as const
 const paymentMethods = ['Наличными', 'Безналичный', 'Переводом'] as const
@@ -128,9 +129,9 @@ export default function ContactForm() {
   return (
     <main className='min-h-screen py-8 text-forlight dark:text-fordark'>
       <form onSubmit={handleSubmit} className='max-w-2xl mx-auto p-6'>
-        <a href='/'>
+        <Link href='/'>
           <ArrowLeftIcon className='w-7 absolute top-16 left-10 sm:left-16 hover:fill-accent duration-200' />
-        </a>
+        </Link>
         <h2 className='text-4xl font-bold mb-6 text-center'>Заявка</h2>
 
         <InputForm
@@ -190,7 +191,6 @@ export default function ContactForm() {
             value={formData.loadContact}
             onChange={(e) => handleChange('loadContact', e.target.value)}
             placeholder='Имя'
-            className='w-1/2'
           />
           <InputForm
             type='tel'
@@ -199,7 +199,6 @@ export default function ContactForm() {
             onChange={(e) =>
               handleChange('loadPhone', formatPhoneNumber(e.target.value))
             }
-            className='w-1/2'
           />
         </div>
 
@@ -278,7 +277,6 @@ export default function ContactForm() {
             value={formData.orderContact}
             onChange={(e) => handleChange('orderContact', e.target.value)}
             placeholder='Имя'
-            className='w-1/2'
           />
           <InputForm
             type='tel'
@@ -287,7 +285,6 @@ export default function ContactForm() {
             onChange={(e) =>
               handleChange('orderPhone', formatPhoneNumber(e.target.value))
             }
-            className='w-1/2'
           />
         </div>
 

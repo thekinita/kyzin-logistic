@@ -6,7 +6,6 @@ import {
   Transition
 } from '@headlessui/react'
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/20/solid'
-import { clsx } from 'clsx'
 
 interface SelectProps<T> {
   label: string

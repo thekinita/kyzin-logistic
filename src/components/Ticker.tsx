@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 
 type TickerProps = {
   images: { url: string; alt: string }[]
@@ -12,7 +13,7 @@ const Ticker = ({ images }: TickerProps) => {
 
   useEffect(() => {
     images.forEach((image) => {
-      const img = new Image()
+      const img = new window.Image()
       img.src = image.url
     })
   }, [images])
@@ -41,10 +42,12 @@ const Ticker = ({ images }: TickerProps) => {
                 key={image.url + idx}
                 className='shrink-0 flex items-center justify-center'
               >
-                <img
+                <Image
                   src={image.url}
                   alt={image.alt}
-                  className='w-[220px] min-h-[40px] object-cover opacity-85 filter grayscale select-none pointer-events-none'
+                  width='220'
+                  height='40'
+                  className='min-h-[40px] object-cover opacity-85 filter grayscale select-none pointer-events-none'
                   draggable='false'
                 />
               </li>

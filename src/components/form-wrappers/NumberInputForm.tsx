@@ -1,20 +1,26 @@
 import { clsx } from 'clsx'
+import { ChangeEvent } from 'react'
 
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string
-  description?: string
   className?: string
 }
 
 export const NumberInputForm = ({
   label,
-  description,
   className,
   step,
   ...props
 }: InputProps) => {
   const stepValue = step ? Number(step) : 1
   const formatNumber = (value: number) => Number(value.toFixed(3))
+
+  const handleChange = (newValue: number) => {
+    const event = {
+      target: { value: String(newValue) }
+    } as ChangeEvent<HTMLInputElement>
+    props.onChange?.(event)
+  }
 
   return (
     <div className='w-full p-2 opacity-0 animate-fade-up'>
@@ -24,7 +30,7 @@ export const NumberInputForm = ({
           type='button'
           onClick={() => {
             const newValue = formatNumber(Number(props.value) - stepValue)
-            props.onChange?.({ target: { value: String(newValue) } } as any)
+            handleChange(newValue)
           }}
           className='cursor-pointer absolute left-0 h-full w-8 flex items-center justify-center rounded-l-lg hover:bg-gray-300 dark:hover:bg-white/20 focus:border-forlight dark:focus:border-fordark transition-colors'
         >
@@ -45,7 +51,7 @@ export const NumberInputForm = ({
           type='button'
           onClick={() => {
             const newValue = formatNumber(Number(props.value) + stepValue)
-            props.onChange?.({ target: { value: String(newValue) } } as any)
+            handleChange(newValue)
           }}
           className='cursor-pointer absolute right-0 h-full w-8 flex items-center justify-center rounded-r-lg hover:bg-gray-300 dark:hover:bg-white/20 focus:border-forlight dark:focus:border-fordark transition-colors'
         >

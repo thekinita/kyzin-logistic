@@ -1,14 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import { motion, useDragControls } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/solid'
 import { testimonials } from '../../public/testimonials'
 
 const Testimonials = () => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [xSide, setXSide] = useState(0)
-  const dragControls = useDragControls()
 
   const prevTestimonial = () => {
     setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1))
@@ -49,7 +48,9 @@ const Testimonials = () => {
               {testimonials[currentIndex].company}
             </h3>
             <p className='text-lg max-w-2xl mx-auto'>
-              "{testimonials[currentIndex].text}"
+              {'"'}
+              {testimonials[currentIndex].text}
+              {'"'}
             </p>
           </motion.div>
         </div>

@@ -1,10 +1,10 @@
 import type { Metadata } from 'next'
-import { Arimo } from 'next/font/google'
+import { Montserrat } from 'next/font/google'
 import './globals.css'
 import { Footer } from '@/components/Footer'
 
-const arimoSans = Arimo({
-  variable: '--font-arimo-sans',
+const arimoSans = Montserrat({
+  variable: '--font-montserrat-sans',
   subsets: ['latin', 'cyrillic']
 })
 

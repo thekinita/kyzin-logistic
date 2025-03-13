@@ -44,7 +44,7 @@ export const TransportCost = ({
         с забором груза за МКАД. Точную стоимость и возможность отгрузки сообщит
         менеджер.
       </span>
-      {cost + ' руб.'}
+      <span className='font-bold text-xl mt-2'>{cost + ' руб.'}</span>
     </div>
   )
 }

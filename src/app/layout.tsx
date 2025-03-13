@@ -3,7 +3,7 @@ import { Montserrat } from 'next/font/google'
 import './globals.css'
 import { Footer } from '@/components/Footer'
 
-const arimoSans = Montserrat({
+const montserratSans = Montserrat({
   variable: '--font-montserrat-sans',
   subsets: ['latin', 'cyrillic']
 })
@@ -23,7 +23,7 @@ export default function RootLayout({
       <head>
         <link rel='icon' href='/logo.png' />
       </head>
-      <body className={`${arimoSans.variable} antialiased`}>
+      <body className={`${montserratSans.variable} antialiased`}>
         {children}
         <Footer />
       </body>

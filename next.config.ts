@@ -4,9 +4,9 @@ const nextConfig: NextConfig = {
   output: 'export',
   images: {
     unoptimized: true
-  },
-  basePath: '/kyzmin-logistic',
-  assetPrefix: '/kyzmin-logistic/'
+  }
+  // basePath: '/kyzmin-logistic',
+  // assetPrefix: '/kyzmin-logistic/'
 }
 
 export default nextConfig

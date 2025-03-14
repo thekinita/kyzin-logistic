@@ -71,31 +71,32 @@ export default function ContactForm() {
     orderPhone: '+7'
   })
 
-  const parameters =
-    `p1=${formData.orgName}&` +
-    `p2=${formData.transportType}&` +
-    `p3=${formData.paymentMethod}&` +
-    `p4=${formData.loadDate}&` +
-    `p5=${formData.loadTime}&` +
-    `p6=${formData.loadAddress}&` +
-    `p7=${formData.deliveryType}&` +
-    `p8=${formData.loadContact}&` +
-    `p9=${formData.loadPhone}&` +
-    `p10=${formData.unloadTime}&` +
-    `p11=${formData.unloadTime}&` +
-    `p12=${formData.unloadAddress}&` +
-    `p13=${formData.hasUnloadContact ? 'есть' : 'нет'}&` +
-    `p14=${formData.cargoType}&` +
-    `p15=${formData.cargoCount}&` +
-    `p16=${formData.cargoWeight}&` +
-    `p17=${formData.orderContact}&` +
-    `p18=${formData.orderPhone}&` +
-    `p19=${calculateCost({
+  const data = {
+    'Название организации': formData.orgName,
+    'Тип перевозки': formData.transportType,
+    'Форма оплаты': formData.paymentMethod,
+    'Дата загрузки': formData.loadDate,
+    'Время загрузки': formData.loadTime,
+    'Адрес загрузки': formData.loadAddress,
+    'Тип поставки': formData.deliveryType,
+    'Контакт на загрузке (имя)': formData.loadContact,
+    'Контакт на загрузке (телефон)': formData.loadPhone,
+    'Дата выгрузки': formData.unloadTime,
+    'Время выгрузки': formData.unloadTime,
+    'Адрес выгрузки': formData.unloadAddress,
+    'Контакт на выгрузке': formData.hasUnloadContact ? 'есть' : 'нет',
+    'Тип груза': formData.cargoType,
+    'Объём груза': formData.cargoCount,
+    'Вес груза': formData.cargoWeight,
+    'Контакт по заказу (имя)': formData.orderContact,
+    'Контакт по заказу (телефон)': formData.orderPhone,
+    'Стоимость перевозки': calculateCost({
       cargoCount: formData.cargoCount,
       cargoType: formData.cargoType,
       cargoWeight: formData.cargoWeight,
       unloadAddress: formData.unloadAddress
-    })}`
+    })
+  }
 
   const router = useRouter()
   const [loading, setLoading] = useState(false)
@@ -107,13 +108,15 @@ export default function ContactForm() {
     setLoading(true)
     e.preventDefault()
     try {
-      const response = await fetch(
-        `https://script.google.com/macros/s/AKfycbxKeyud2mIYCeZ7_f-AsNxw0-ma3EWrI08KiXdGbvqhT17LsGxI2jv3ioDwLzKwIajbcg/exec?${parameters}`,
-        {
-          method: 'POST'
-        }
-      )
-      if (response.status === 200) console.log('Заявка успешно отправлена')
+      const response = await fetch('https://formcarry.com/s/Amfr2Q8JuHZ', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      if (response.ok) console.log('Заявка успешно отправлена')
       router.push('/contact/success')
     } catch (error) {
       console.error('Ошибка:', error)

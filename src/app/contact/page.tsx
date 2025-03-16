@@ -54,52 +54,59 @@ export default function ContactForm() {
     orgName: '',
     transportType: transportTypes[0],
     paymentMethod: paymentMethods[0],
-    loadDate: '2025-01-01',
-    loadTime: '10:00',
+    loadDate: '',
+    loadTime: '',
     loadAddress: '',
     deliveryType: deliveryTypes[0],
     loadContact: '',
-    loadPhone: '+7',
-    unloadDate: '2025-01-01',
-    unloadTime: '10:00',
+    loadPhone: '',
+    unloadDate: '',
+    unloadTime: '',
     unloadAddress: unloadAddresses[0],
     hasUnloadContact: true,
     cargoType: deliveryTypes[0],
     cargoCount: 1,
     cargoWeight: 1,
     orderContact: '',
-    orderPhone: '+7'
+    orderPhone: ''
   })
 
   const data = {
-    'Название организации': formData.orgName,
-    'Тип перевозки': formData.transportType,
-    'Форма оплаты': formData.paymentMethod,
-    'Дата загрузки': formData.loadDate,
-    'Время загрузки': formData.loadTime,
-    'Адрес загрузки': formData.loadAddress,
-    'Тип поставки': formData.deliveryType,
-    'Контакт на загрузке (имя)': formData.loadContact,
-    'Контакт на загрузке (телефон)': formData.loadPhone,
-    'Дата выгрузки': formData.unloadTime,
-    'Время выгрузки': formData.unloadTime,
-    'Адрес выгрузки': formData.unloadAddress,
-    'Контакт на выгрузке': formData.hasUnloadContact ? 'есть' : 'нет',
-    'Тип груза': formData.cargoType,
-    'Объём груза': formData.cargoCount,
-    'Вес груза': formData.cargoWeight,
-    'Контакт по заказу (имя)': formData.orderContact,
-    'Контакт по заказу (телефон)': formData.orderPhone,
-    'Стоимость перевозки': calculateCost({
-      cargoCount: formData.cargoCount,
-      cargoType: formData.cargoType,
-      cargoWeight: formData.cargoWeight,
-      unloadAddress: formData.unloadAddress
-    })
+    fields: {
+      Организация: formData.orgName,
+      Тип_перевозки: formData.transportType,
+      Оплата: formData.paymentMethod,
+      Дата_загрузки: formData.loadDate,
+      Время_загрузки: formData.loadTime,
+      Адрес_загрузки: formData.loadAddress,
+      Тип_поставки: formData.deliveryType,
+      Контакт_на_загрузке_имя: formData.loadContact,
+      Контакт_на_загрузке_телефон: formData.loadPhone,
+      Дата_выгрузки: formData.unloadDate,
+      Время_выгрузки: formData.unloadTime,
+      Адрес_выгрузки: formData.unloadAddress,
+      Контакт_на_выгрузке: formData.hasUnloadContact,
+      Тип_груза: formData.cargoType,
+      Объём_груза: formData.cargoCount,
+      Вес_груза: formData.cargoWeight,
+      Контакт_по_заказу_имя: formData.orderContact,
+      Контакт_по_заказу_телефон: formData.orderPhone,
+      Стоимость: calculateCost({
+        cargoCount: formData.cargoCount,
+        cargoType: formData.cargoType,
+        cargoWeight: formData.cargoWeight,
+        unloadAddress: formData.unloadAddress
+      })
+    }
   }
 
   const router = useRouter()
   const [loading, setLoading] = useState(false)
+
+  const BASE_ID = 'appUXJO2lBtU0BFAl'
+  const TABLE_ID = 'tbl2pxrI0em0HIAW3'
+  const AIRTABLE_API_TOKEN =
+    '86e0cfb570ae2111f61efa25f23e5753775487266f2861a018c738982426bf1d'
 
   const handleChange = <K extends keyof FormData>(key: K, value: FormData[K]) =>
     setFormData((prev) => ({ ...prev, [key]: value }))
@@ -108,18 +115,23 @@ export default function ContactForm() {
     setLoading(true)
     e.preventDefault()
     try {
-      const response = await fetch('https://formcarry.com/s/Amfr2Q8JuHZ', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-        body: JSON.stringify(data)
-      })
-      if (response.ok) console.log('Заявка успешно отправлена')
-      router.push('/contact/success')
+      const response = await fetch(
+        `https://api.airtable.com/v0/${BASE_ID}/${TABLE_ID}`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${AIRTABLE_API_TOKEN}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        }
+      )
+      if (response.status === 200) {
+        router.push('/contact/success')
+      } else {
+        router.push('/contact/error')
+      }
     } catch (error) {
-      console.error('Ошибка:', error)
       router.push('/contact/error')
     } finally {
       setLoading(false)
@@ -196,6 +208,7 @@ export default function ContactForm() {
             type='tel'
             label='Телефон'
             value={formData.loadPhone}
+            placeholder='+7 (999) 999-99-99'
             onChange={(e) =>
               handleChange('loadPhone', formatPhoneNumber(e.target.value))
             }
@@ -282,6 +295,7 @@ export default function ContactForm() {
             type='tel'
             label='Телефон'
             value={formData.orderPhone}
+            placeholder='+7 (999) 999-99-99'
             onChange={(e) =>
               handleChange('orderPhone', formatPhoneNumber(e.target.value))
             }

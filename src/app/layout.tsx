@@ -9,7 +9,7 @@ const montserratSans = Montserrat({
 })
 
 export const metadata: Metadata = {
-  title: 'ИП Кузьмин И.Ю.',
+  title: 'ИП Кузин И.Ю.',
   description: 'Доставка товаров от поставщика до маркетплейсов'
 }
 

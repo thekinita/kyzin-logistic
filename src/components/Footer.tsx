@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 export const Footer = () => {
@@ -10,7 +11,7 @@ export const Footer = () => {
   if (hideFooter) return null
 
   return (
-    <footer className='py-8 mt-16 mx-8'>
+    <footer className='py-8 mt-16 mx-8 text-xs sm:text-base'>
       <div className='flex justify-center gap-8 sm:gap-24'>
         <div>
           <p>ИП Кузин И.Ю.</p>
@@ -18,18 +19,16 @@ export const Footer = () => {
           <p>ОГРНИП 312730615700025</p>
         </div>
         <div className='grid *:hover:text-accent *:duration-200'>
-          <a target='_blank' href='https://ati.su/firms/1230629/info'>
-            Мы на ATI.su
-          </a>
-          <a
+          <Link href='tel:+7 (927) 741-04-18'>+7 (927) 741-04-18</Link>
+          <Link
             target='_blank'
             href='https://docs.google.com/spreadsheets/d/1xW6d66gbo4ie11sBBRGRBqplyHzygXcNe3pLe8Ua8gM/edit?gid=0#gid=0'
           >
             Наш прайс
-          </a>
+          </Link>
         </div>
       </div>
-      <p className='text-sm mt-5 text-center'>
+      <p className='text-xs sm:text-sm mt-5 text-center'>
         &copy; {new Date().getFullYear()} Все права защищены.
       </p>
     </footer>

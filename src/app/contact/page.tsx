@@ -54,14 +54,14 @@ export default function ContactForm() {
     orgName: '',
     transportType: transportTypes[0],
     paymentMethod: paymentMethods[0],
-    loadDate: '',
-    loadTime: '',
+    loadDate: 'дд.мм.гггг',
+    loadTime: '--:--',
     loadAddress: '',
     deliveryType: deliveryTypes[0],
     loadContact: '',
     loadPhone: '',
-    unloadDate: '',
-    unloadTime: '',
+    unloadDate: 'дд.мм.гггг',
+    unloadTime: '--:--',
     unloadAddress: unloadAddresses[0],
     hasUnloadContact: true,
     cargoType: deliveryTypes[0],
@@ -149,114 +149,114 @@ export default function ContactForm() {
   }
 
   return (
-    <main className="min-h-screen py-8 text-forlight dark:text-fordark">
-      <form onSubmit={handleSubmit} className="max-w-2xl mx-auto p-6">
-        <Link href="/">
-          <ArrowLeftIcon className="w-7 absolute top-16 left-10 sm:left-16 hover:fill-accent duration-200" />
+    <main className='min-h-screen py-8 text-forlight dark:text-fordark'>
+      <form onSubmit={handleSubmit} className='max-w-2xl mx-auto p-6'>
+        <Link href='/'>
+          <ArrowLeftIcon className='w-7 absolute top-16 left-10 sm:left-16 hover:fill-accent duration-200' />
         </Link>
-        <h2 className="text-4xl font-bold mb-6 text-center">Заявка</h2>
+        <h2 className='text-4xl font-bold mb-6 text-center'>Заявка</h2>
 
         <InputForm
-          label="Название организации"
+          label='Название организации'
           value={formData.orgName}
           onChange={(e) => handleChange('orgName', e.target.value)}
-          placeholder="ИП, ООО и тд."
+          placeholder='ИП, ООО и тд.'
         />
         <SelectForm
-          label="Тип перевозки"
+          label='Тип перевозки'
           value={formData.transportType}
           onChange={(val) => handleChange('transportType', val)}
           options={transportTypes}
         />
         <SelectForm
-          label="Форма оплаты"
+          label='Форма оплаты'
           value={formData.paymentMethod}
           onChange={(val) => handleChange('paymentMethod', val)}
           options={paymentMethods}
         />
 
-        <div className="sm:flex gap-2">
+        <div className='sm:flex gap-2'>
           <DateInputForm
-            label="Дата загрузки"
-            type="date"
+            label='Дата загрузки'
+            type='date'
             value={formData.loadDate}
             onChange={(e) => handleChange('loadDate', e.target.value)}
-            className="w-1/2"
+            className='w-1/2'
           />
           <DateInputForm
-            label="Время загрузки"
-            type="time"
+            label='Время загрузки'
+            type='time'
             value={formData.loadTime}
             onChange={(e) => handleChange('loadTime', e.target.value)}
-            className="w-1/2"
+            className='w-1/2'
           />
         </div>
 
         <InputForm
-          label="Адрес загрузки"
-          description="Забор груза за МКАД обсуждается отдельно (платно) и зависит от
-            расстояния."
+          label='Адрес загрузки'
+          description='Забор груза за МКАД обсуждается отдельно (платно) и зависит от
+            расстояния.'
           value={formData.loadAddress}
           onChange={(e) => handleChange('loadAddress', e.target.value)}
-          placeholder="Город, улица, дом"
+          placeholder='Город, улица, дом'
         />
         <SelectForm
-          label="Тип поставки"
+          label='Тип поставки'
           value={formData.deliveryType}
           onChange={(val) => handleChange('deliveryType', val)}
           options={deliveryTypes}
         />
 
-        <div className="sm:flex gap-2">
+        <div className='sm:flex gap-2'>
           <InputForm
-            label="Контакт на загрузке"
+            label='Контакт на загрузке'
             value={formData.loadContact}
             onChange={(e) => handleChange('loadContact', e.target.value)}
-            placeholder="Имя"
+            placeholder='Имя'
           />
           <InputForm
-            type="tel"
-            label="Телефон"
+            type='tel'
+            label='Телефон'
             value={formData.loadPhone}
-            placeholder="+7 (999) 999-99-99"
+            placeholder='+7 (999) 999-99-99'
             onChange={(e) =>
               handleChange('loadPhone', formatPhoneNumber(e.target.value))
             }
           />
         </div>
 
-        <div className="sm:flex gap-2">
+        <div className='sm:flex gap-2'>
           <DateInputForm
-            label="Дата выгрузки"
-            type="date"
+            label='Дата выгрузки'
+            type='date'
             value={formData.unloadDate}
             onChange={(e) => handleChange('unloadDate', e.target.value)}
-            className="w-1/2"
+            className='w-1/2'
           />
           <DateInputForm
-            label="Время выгрузки"
-            type="time"
+            label='Время выгрузки'
+            type='time'
             value={formData.unloadTime}
             onChange={(e) => handleChange('unloadTime', e.target.value)}
-            className="w-1/2"
+            className='w-1/2'
           />
         </div>
 
         <SelectForm
-          label="Адрес выгрузки"
+          label='Адрес выгрузки'
           value={formData.unloadAddress}
           onChange={(val) => handleChange('unloadAddress', val)}
           options={unloadAddresses}
         />
         <CheckboxForm
-          label="Контакт на выгрузке"
+          label='Контакт на выгрузке'
           checked={formData.hasUnloadContact}
           onChange={(val) => handleChange('hasUnloadContact', val)}
         />
 
-        <div className="sm:flex gap-2">
+        <div className='sm:flex gap-2'>
           <SelectForm
-            label="Тип груза"
+            label='Тип груза'
             value={formData.cargoType}
             onChange={(val) => handleChange('cargoType', val)}
             options={deliveryTypes}
@@ -276,7 +276,7 @@ export default function ContactForm() {
             />
           )}
           <NumberInputForm
-            label="Вес груза (т)"
+            label='Вес груза (т)'
             value={formData.cargoWeight}
             onChange={(e) =>
               handleChange('cargoWeight', Number(e.target.value))
@@ -286,7 +286,7 @@ export default function ContactForm() {
           />
         </div>
         {formData.cargoType === 'Паллет' && (
-          <div className="text-xs m-auto text-center opacity-70">
+          <div className='text-xs m-auto text-center opacity-70'>
             <span>
               Паллеты предоставляются ПЛАТНО - 300 руб./шт. Паллетирование груза
               пленкой 300 руб./паллет
@@ -294,32 +294,32 @@ export default function ContactForm() {
           </div>
         )}
 
-        <div className="sm:flex gap-2">
+        <div className='sm:flex gap-2'>
           <InputForm
-            label="Контакт по заказу"
+            label='Контакт по заказу'
             value={formData.orderContact}
             onChange={(e) => handleChange('orderContact', e.target.value)}
-            placeholder="Имя"
+            placeholder='Имя'
           />
           <InputForm
-            type="tel"
-            label="Телефон"
+            type='tel'
+            label='Телефон'
             value={formData.orderPhone}
-            placeholder="+7 (999) 999-99-99"
+            placeholder='+7 (999) 999-99-99'
             onChange={(e) =>
               handleChange('orderPhone', formatPhoneNumber(e.target.value))
             }
           />
         </div>
 
-        <div className="p-2 grid gap-4">
+        <div className='p-2 grid gap-4'>
           <TransportCost
             cargoCount={formData.cargoCount}
             cargoType={formData.cargoType}
             cargoWeight={formData.cargoWeight}
             unloadAddress={formData.unloadAddress}
           />
-          <p className="text-xs">
+          <p className='text-xs'>
             1. Погрузка 1 час бесплатно, далее 700 руб./час. Ожидание фуры -
             2000 руб./час. <br />
             2. Погрузка силами водителя в стоимость не входит. Стоимость
@@ -344,16 +344,16 @@ export default function ContactForm() {
           />
         </div>
 
-        <div className="pt-6 grid justify-center gap-2">
+        <div className='pt-6 grid justify-center gap-2'>
           {error && (
-            <p className="text-red-500 text-center text-sm font-bold mt-2">
+            <p className='text-red-500 text-center text-sm font-bold mt-2'>
               {error}
             </p>
           )}
           <Button
-            type="submit"
+            type='submit'
             disabled={loading}
-            className="flex rounded-md bg-accent m-auto py-3 px-4 text-sm font-semibold text-white hover:bg-gray-300 hover:text-black focus:outline-none focus:border-1 focus:border-gray-300 transition-all cursor-pointer"
+            className='flex rounded-md bg-accent m-auto py-3 px-4 text-sm font-semibold text-white hover:bg-gray-300 hover:text-black focus:outline-none focus:border-1 focus:border-gray-300 transition-all cursor-pointer'
           >
             {loading ? 'Отправка...' : 'Отправить заявку'}
           </Button>

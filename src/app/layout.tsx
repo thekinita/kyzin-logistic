@@ -23,6 +23,8 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="./logo.png" type="image/png" />
         <meta property="og:image" content="./preview.png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
       </head>
       <body className={`${montserratSans.variable} antialiased`}>
         {children}

@@ -5,8 +5,6 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true
   }
-  // basePath: '/kyzmin-logistic',
-  // assetPrefix: '/kyzmin-logistic/'
 }
 
 export default nextConfig

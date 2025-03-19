@@ -40,7 +40,7 @@ type FormData = {
   loadPhone: string
   unloadDate: string
   unloadTime: string
-  unloadAddress: (typeof unloadAddresses)[number]
+  unloadAddress: (typeof unloadAddresses)[number] | string
   hasUnloadContact: boolean
   cargoType: (typeof deliveryTypes)[number]
   cargoCount: number
@@ -248,6 +248,14 @@ export default function ContactForm() {
           onChange={(val) => handleChange('unloadAddress', val)}
           options={unloadAddresses}
         />
+        {formData.unloadAddress === 'Свой вариант' && (
+          <InputForm
+            label="Адрес загрузки"
+            value={formData.unloadAddress}
+            onChange={(e) => handleChange('unloadAddress', e.target.value)}
+            placeholder="Город, улица, дом"
+          />
+        )}
         <CheckboxForm
           label="Контакт на выгрузке"
           checked={formData.hasUnloadContact}

@@ -10,7 +10,7 @@ type UnloadAddress =
 type CargoType = 'Короб' | 'Паллет' | 'Иное'
 
 export interface TransportParams {
-  unloadAddress: UnloadAddress
+  unloadAddress: UnloadAddress | string
   cargoType: CargoType
   cargoWeight: number
   cargoCount: number

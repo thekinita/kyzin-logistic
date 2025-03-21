@@ -23,21 +23,21 @@ export const NumberInputForm = ({
   }
 
   return (
-    <div className='w-full p-2 opacity-0 animate-fade-up'>
-      <label className='text-sm font-medium'>{label}</label>
-      <div className='mt-1 relative flex items-center'>
+    <div className="w-full p-2">
+      <label className="text-sm font-medium">{label}</label>
+      <div className="mt-1 relative flex items-center">
         <button
-          type='button'
+          type="button"
           onClick={() => {
             const newValue = formatNumber(Number(props.value) - stepValue)
             handleChange(newValue)
           }}
-          className='cursor-pointer absolute left-0 h-full w-8 flex items-center justify-center rounded-l-lg hover:bg-gray-300 dark:hover:bg-white/20 focus:border-forlight dark:focus:border-fordark transition-colors'
+          className="cursor-pointer absolute left-0 h-full w-8 flex items-center justify-center rounded-l-lg hover:bg-gray-300 dark:hover:bg-white/20 focus:border-forlight dark:focus:border-fordark transition-colors"
         >
           -
         </button>
         <input
-          type='number'
+          type="number"
           className={clsx(
             'w-full rounded-lg border-transparent dark:bg-white/5 bg-black/5 py-2 text-sm text-center',
             'focus:outline-none border-1 focus:border-forlight dark:focus:border-fordark data-[focus]:outline-2 data-[focus]:-outline-offset-2',
@@ -48,12 +48,12 @@ export const NumberInputForm = ({
           {...props}
         />
         <button
-          type='button'
+          type="button"
           onClick={() => {
             const newValue = formatNumber(Number(props.value) + stepValue)
             handleChange(newValue)
           }}
-          className='cursor-pointer absolute right-0 h-full w-8 flex items-center justify-center rounded-r-lg hover:bg-gray-300 dark:hover:bg-white/20 focus:border-forlight dark:focus:border-fordark transition-colors'
+          className="cursor-pointer absolute right-0 h-full w-8 flex items-center justify-center rounded-r-lg hover:bg-gray-300 dark:hover:bg-white/20 focus:border-forlight dark:focus:border-fordark transition-colors"
         >
           +
         </button>

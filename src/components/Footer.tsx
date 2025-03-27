@@ -16,6 +16,7 @@ export const Footer = () => {
         <p className="font-bold text-lg text-center">ИП Кузин И.Ю.</p>
         <div className="sm:flex grid text-center gap-4 *:hover:underline *:hover:text-accent *:duration-200">
           <Link href="tel:+7 (985) 451-10-01">+7 (985) 451-10-01</Link>
+          <Link href="mailto:zakaz.kuzin@mail.ru">zakaz.kuzin@mail.ru</Link>
           <Link
             target="_blank"
             href="https://docs.google.com/spreadsheets/d/1xW6d66gbo4ie11sBBRGRBqplyHzygXcNe3pLe8Ua8gM/edit?gid=0#gid=0"

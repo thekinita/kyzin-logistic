@@ -151,6 +151,12 @@ export default function ContactForm() {
     setTimeout(() => setIsFadeUp(false), 1000)
   }, [isFadeUp])
 
+  useEffect(() => {
+    if (formData.unloadAddress === unloadAddresses[6]) {
+      setFormData((prev) => ({ ...prev, unloadAddress: '' }))
+    }
+  }, [formData])
+
   return (
     <main className="min-h-screen py-8 text-forlight dark:text-fordark">
       <Link href="/">

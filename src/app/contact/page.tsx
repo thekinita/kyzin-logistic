@@ -18,6 +18,7 @@ import Link from 'next/link'
 const transportTypes = ['Маркетплейс', 'Транспортировка'] as const
 const paymentMethods = ['Наличными', 'Безналичный', 'Переводом'] as const
 const deliveryTypes = ['Короб', 'Паллет', 'Иное'] as const
+const loadTypes = ['Верхняя', 'Боковая', 'Гидроборт'] as const
 const cargoTypes = [
   'Короб',
   'Паллет',
@@ -42,6 +43,7 @@ type FormData = {
   loadTime: string
   loadAddress: string
   deliveryType: (typeof deliveryTypes)[number]
+  loadType: (typeof loadTypes)[number]
   loadContact: string
   loadPhone: string
   unloadDate: string
@@ -68,6 +70,7 @@ export default function ContactForm() {
     loadTime: '--:--',
     loadAddress: '',
     deliveryType: deliveryTypes[0],
+    loadType: loadTypes[0],
     loadContact: '',
     loadPhone: '',
     unloadDate: 'дд.мм.гггг',
@@ -94,6 +97,7 @@ export default function ContactForm() {
       Время_загрузки: formData.loadTime,
       Адрес_загрузки: formData.loadAddress,
       Тип_поставки: formData.deliveryType,
+      Тип_погрузки: formData.loadType,
       Контакт_на_загрузке_имя: formData.loadContact,
       Контакт_на_загрузке_телефон: formData.loadPhone,
       Дата_выгрузки: formData.unloadDate,
@@ -255,6 +259,12 @@ export default function ContactForm() {
           value={formData.deliveryType}
           onChange={(val) => handleChange('deliveryType', val)}
           options={deliveryTypes}
+        />
+        <SelectForm
+          label="Тип погрузки"
+          value={formData.loadType}
+          onChange={(val) => handleChange('loadType', val)}
+          options={loadTypes}
         />
 
         <div className="sm:flex gap-2">

@@ -4,16 +4,17 @@ export const calculateCost = ({
   unloadAddress,
   cargoType,
   cargoWeight,
-  cargoCount
+  palletCount,
+  boxCount
 }: TransportParams) => {
   const isPallet = cargoType === 'Паллет'
-  const pallets = isPallet ? cargoCount : Math.ceil(cargoCount / 10)
+  const pallets = isPallet ? palletCount : Math.ceil(palletCount / 10)
 
   switch (unloadAddress) {
     // Доставка до СЦ и РЦ Маркетплейсов по Москве и МО
     case 'Доставка до СЦ и РЦ по Москве и МО':
       if (cargoWeight < 1.5) {
-        if (!isPallet && pallets <= 1) return 2000 // до 1 м.куб (до 10 коробок)
+        if (!isPallet && boxCount <= 10) return 2000 // до 1 м.куб (до 10 коробок)
         if (pallets === 1) return 2500
         if (pallets >= 2 && pallets <= 4) return 4000
         if (pallets === 5) return 5000

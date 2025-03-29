@@ -18,6 +18,12 @@ import Link from 'next/link'
 const transportTypes = ['Маркетплейс', 'Транспортировка'] as const
 const paymentMethods = ['Наличными', 'Безналичный', 'Переводом'] as const
 const deliveryTypes = ['Короб', 'Паллет', 'Иное'] as const
+const cargoTypes = [
+  'Короб',
+  'Паллет',
+  'Комбинированно',
+  'Укажу размеры'
+] as const
 const unloadAddresses = [
   'Доставка до СЦ и РЦ по Москве и МО',
   'Доставка до РЦ Алексин',
@@ -42,8 +48,12 @@ type FormData = {
   unloadTime: string
   unloadAddress: (typeof unloadAddresses)[number]
   hasUnloadContact: boolean
-  cargoType: (typeof deliveryTypes)[number]
-  cargoCount: number
+  cargoType: (typeof cargoTypes)[number]
+  boxCount: number
+  palletCount: number
+  cargoLength: number
+  cargoWidth: number
+  cargoHeight: number
   cargoWeight: number
   orderContact: string
   orderPhone: string
@@ -64,9 +74,13 @@ export default function ContactForm() {
     unloadTime: '--:--',
     unloadAddress: unloadAddresses[0],
     hasUnloadContact: true,
-    cargoType: deliveryTypes[0],
-    cargoCount: 1,
-    cargoWeight: 1,
+    cargoType: cargoTypes[0],
+    boxCount: 0,
+    palletCount: 0,
+    cargoLength: 0,
+    cargoWidth: 0,
+    cargoHeight: 0,
+    cargoWeight: 0,
     orderContact: '',
     orderPhone: ''
   })
@@ -87,12 +101,15 @@ export default function ContactForm() {
       Адрес_выгрузки: formData.unloadAddress,
       Контакт_на_выгрузке: formData.hasUnloadContact,
       Тип_груза: formData.cargoType,
-      Объём_груза: formData.cargoCount,
+      Количество_коробов: formData.boxCount,
+      Количество_паллетов: formData.palletCount,
+      Размер_груза: `${formData.cargoLength}*${formData.cargoWeight}*${formData.cargoHeight}`,
       Вес_груза: formData.cargoWeight,
       Контакт_по_заказу_имя: formData.orderContact,
       Контакт_по_заказу_телефон: formData.orderPhone,
       Стоимость: calculateCost({
-        cargoCount: formData.cargoCount,
+        palletCount: formData.palletCount,
+        boxCount: formData.boxCount,
         cargoType: formData.cargoType,
         cargoWeight: formData.cargoWeight,
         unloadAddress: formData.unloadAddress
@@ -155,7 +172,27 @@ export default function ContactForm() {
     if (formData.unloadAddress === unloadAddresses[6]) {
       setFormData((prev) => ({ ...prev, unloadAddress: '' }))
     }
-  }, [formData])
+    if (
+      formData.cargoType === 'Короб' ||
+      formData.cargoType === 'Укажу размеры'
+    ) {
+      setFormData((prev) => ({ ...prev, palletCount: 0 }))
+    }
+    if (
+      formData.cargoType === 'Паллет' ||
+      formData.cargoType === 'Укажу размеры'
+    ) {
+      setFormData((prev) => ({ ...prev, boxCount: 0 }))
+    }
+    if (formData.cargoType !== 'Укажу размеры') {
+      setFormData((prev) => ({
+        ...prev,
+        cargoLength: 0,
+        cargoWidth: 0,
+        cargoHeight: 0
+      }))
+    }
+  }, [formData.unloadAddress, formData.cargoType])
 
   return (
     <main className="min-h-screen py-8 text-forlight dark:text-fordark">
@@ -276,26 +313,70 @@ export default function ContactForm() {
           onChange={(val) => handleChange('hasUnloadContact', val)}
         />
 
-        <div className="sm:flex gap-2">
-          <SelectForm
-            label="Тип груза"
-            value={formData.cargoType}
-            onChange={(val) => handleChange('cargoType', val)}
-            options={deliveryTypes}
-          />
-          {formData.cargoType !== 'Иное' && (
+        <SelectForm
+          label="Тип груза"
+          value={formData.cargoType}
+          onChange={(val) => handleChange('cargoType', val)}
+          options={cargoTypes}
+        />
+        <div
+          className={`sm:grid gap-2 
+            ${formData.cargoType === cargoTypes[0] && 'grid-cols-2'}
+            ${formData.cargoType === cargoTypes[1] && 'grid-cols-2'}
+            ${formData.cargoType === cargoTypes[2] && 'grid-cols-3'}
+            ${formData.cargoType === cargoTypes[3] && 'grid-cols-1'} 
+            `}
+        >
+          {(formData.cargoType === cargoTypes[2] ||
+            formData.cargoType === cargoTypes[0]) && (
             <NumberInputForm
-              label={
-                formData.cargoType === 'Короб'
-                  ? 'Количество коробов'
-                  : 'Количество паллетов'
-              }
-              value={formData.cargoCount}
+              label="Количество коробов"
+              value={formData.boxCount}
+              onChange={(e) => handleChange('boxCount', Number(e.target.value))}
+              min={1}
+            />
+          )}
+          {(formData.cargoType === cargoTypes[2] ||
+            formData.cargoType === cargoTypes[1]) && (
+            <NumberInputForm
+              label="Количество паллетов"
+              value={formData.palletCount}
               onChange={(e) =>
-                handleChange('cargoCount', Number(e.target.value))
+                handleChange('palletCount', Number(e.target.value))
               }
               min={1}
             />
+          )}
+          {formData.cargoType === cargoTypes[3] && (
+            <div className="sm:grid grid-cols-3">
+              <NumberInputForm
+                label="Длина груза (м)"
+                value={formData.cargoLength}
+                onChange={(e) =>
+                  handleChange('cargoLength', Number(e.target.value))
+                }
+                min={0}
+                step={0.1}
+              />
+              <NumberInputForm
+                label="Ширина груза (м)"
+                value={formData.cargoWidth}
+                onChange={(e) =>
+                  handleChange('cargoWidth', Number(e.target.value))
+                }
+                min={0}
+                step={0.1}
+              />
+              <NumberInputForm
+                label="Высота груза (м)"
+                value={formData.cargoHeight}
+                onChange={(e) =>
+                  handleChange('cargoHeight', Number(e.target.value))
+                }
+                min={0}
+                step={0.1}
+              />
+            </div>
           )}
           <NumberInputForm
             label="Вес груза (т)"
@@ -307,7 +388,8 @@ export default function ContactForm() {
             step={0.1}
           />
         </div>
-        {formData.cargoType === 'Паллет' && (
+        {(formData.cargoType === cargoTypes[2] ||
+          formData.cargoType === cargoTypes[1]) && (
           <div className="text-xs m-auto text-center opacity-70">
             <span>
               Паллеты предоставляются ПЛАТНО - 300 руб./шт. Паллетирование груза
@@ -336,7 +418,8 @@ export default function ContactForm() {
 
         <div className="p-2 grid gap-4">
           <TransportCost
-            cargoCount={formData.cargoCount}
+            palletCount={formData.palletCount}
+            boxCount={formData.boxCount}
             cargoType={formData.cargoType}
             cargoWeight={formData.cargoWeight}
             unloadAddress={formData.unloadAddress}
@@ -359,7 +442,8 @@ export default function ContactForm() {
             5. Ложная подача машины оплачивается в размере 100%.
           </p>
           <PaidWaiting
-            cargoCount={formData.cargoCount}
+            palletCount={formData.palletCount}
+            boxCount={formData.boxCount}
             cargoType={formData.cargoType}
             cargoWeight={formData.cargoWeight}
             unloadAddress={formData.unloadAddress}

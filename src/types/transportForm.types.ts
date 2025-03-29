@@ -7,11 +7,12 @@ type UnloadAddress =
   | 'Доставка до Твери'
   | 'Свой вариант'
 
-type CargoType = 'Короб' | 'Паллет' | 'Иное'
+type CargoType = 'Короб' | 'Паллет' | 'Комбинированно' | 'Укажу размеры'
 
 export interface TransportParams {
   unloadAddress: UnloadAddress | string
   cargoType: CargoType
   cargoWeight: number
-  cargoCount: number
+  palletCount: number
+  boxCount: number
 }

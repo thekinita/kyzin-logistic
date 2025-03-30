@@ -24,6 +24,7 @@ export const DateInputForm = ({
           className={clsx(
             'focus:outline-none focus:border-forlight dark:focus:border-fordark data-[focus]:outline-2 data-[focus]:-outline-offset-2 data-[focus]:outline-white/25',
             '[&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-inner-spin-button]:hidden [&::-webkit-clear-button]:hidden',
+            'bg-transparent min-h-[19.98px] w-full appearance-none text-forlight dark:text-fordark',
             className
           )}
           {...props}

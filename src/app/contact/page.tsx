@@ -14,6 +14,7 @@ import { calculateCost } from '@/utils/calculateCost'
 import { ArrowLeftIcon } from '@heroicons/react/16/solid'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { CommentForm } from '@/components/form-wrappers/CommentForm'
 
 const transportTypes = ['Маркетплейс', 'Транспортировка'] as const
 const paymentMethods = ['Наличными', 'Безналичный', 'Переводом'] as const
@@ -59,6 +60,7 @@ type FormData = {
   cargoWeight: number
   orderContact: string
   orderPhone: string
+  comment: string
 }
 
 export default function ContactForm() {
@@ -85,7 +87,8 @@ export default function ContactForm() {
     cargoHeight: 0,
     cargoWeight: 0,
     orderContact: '',
-    orderPhone: ''
+    orderPhone: '',
+    comment: ''
   })
 
   const data = {
@@ -111,6 +114,7 @@ export default function ContactForm() {
       Вес_груза: formData.cargoWeight,
       Контакт_по_заказу_имя: formData.orderContact,
       Контакт_по_заказу_телефон: formData.orderPhone,
+      Комментарий: formData.comment,
       Стоимость: calculateCost({
         palletCount: formData.palletCount,
         boxCount: formData.boxCount,
@@ -425,6 +429,12 @@ export default function ContactForm() {
             }
           />
         </div>
+        <CommentForm
+          label="Комментарий"
+          value={formData.comment}
+          onChange={(e) => handleChange('comment', e.target.value)}
+          placeholder="Введите дополнительную информацию..."
+        />
 
         <div className="p-2 grid gap-4">
           <TransportCost

@@ -118,9 +118,9 @@ export default function ContactForm() {
           : formData.boxCount + ' кор.' + ' + ' + formData.palletCount + ' пал.'
       }`,
       Размер_груза:
-        !formData.cargoLength && !formData.cargoWeight && !formData.cargoHeight
+        !formData.cargoLength && !formData.cargoWidth && !formData.cargoHeight
           ? ''
-          : `${formData.cargoLength}*${formData.cargoWeight}*${formData.cargoHeight}`,
+          : `${formData.cargoLength}*${formData.cargoWidth}*${formData.cargoHeight}`,
       Вес_груза: formData.cargoWeight,
       Контакт_по_заказу_имя: formData.orderContact,
       Контакт_по_заказу_телефон: formData.orderPhone,
@@ -138,7 +138,6 @@ export default function ContactForm() {
   const router = useRouter()
   const [isFadeUp, setIsFadeUp] = useState(true)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
 
   const BASE_ID = 'app3Z47spktjduNdO'
   const TABLE_ID = 'tblax98VKBtvi7BcF'
@@ -151,18 +150,6 @@ export default function ContactForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     setLoading(true)
     e.preventDefault()
-
-    if (
-      Object.values([formData.loadDate, formData.unloadDate]).some(
-        (value) => value === ''
-      )
-    ) {
-      setError('Все поля должны быть заполнены')
-      setLoading(false)
-      return
-    }
-
-    setError('')
 
     try {
       const response = await fetch(
@@ -233,6 +220,7 @@ export default function ContactForm() {
           value={formData.orgName}
           onChange={(e) => handleChange('orgName', e.target.value)}
           placeholder="ИП, ООО и тд."
+          required
         />
         <SelectForm
           label="Тип перевозки"
@@ -246,7 +234,6 @@ export default function ContactForm() {
           onChange={(val) => handleChange('paymentMethod', val)}
           options={paymentMethods}
         />
-
         <div className="sm:flex gap-2">
           <DateInputForm
             label="Дата загрузки"
@@ -254,6 +241,7 @@ export default function ContactForm() {
             value={formData.loadDate}
             onChange={(e) => handleChange('loadDate', e.target.value)}
             className="w-1/2"
+            required
           />
           <DateInputForm
             label="Время загрузки"
@@ -261,9 +249,9 @@ export default function ContactForm() {
             value={formData.loadTime}
             onChange={(e) => handleChange('loadTime', e.target.value)}
             className="w-1/2"
+            required
           />
         </div>
-
         <InputForm
           label="Адрес загрузки"
           description="Забор груза за МКАД обсуждается отдельно (платно) и зависит от
@@ -271,6 +259,7 @@ export default function ContactForm() {
           value={formData.loadAddress}
           onChange={(e) => handleChange('loadAddress', e.target.value)}
           placeholder="Город, улица, дом"
+          required
         />
         <SelectForm
           label="Тип поставки"
@@ -284,13 +273,13 @@ export default function ContactForm() {
           onChange={(val) => handleChange('loadType', val)}
           options={loadTypes}
         />
-
         <div className="sm:flex gap-2">
           <InputForm
             label="Контакт на загрузке"
             value={formData.loadContact}
             onChange={(e) => handleChange('loadContact', e.target.value)}
             placeholder="Имя"
+            required
           />
           <InputForm
             type="tel"
@@ -300,9 +289,9 @@ export default function ContactForm() {
             onChange={(e) =>
               handleChange('loadPhone', formatPhoneNumber(e.target.value))
             }
+            required
           />
         </div>
-
         <div className="sm:flex gap-2">
           <DateInputForm
             label="Дата выгрузки"
@@ -310,6 +299,7 @@ export default function ContactForm() {
             value={formData.unloadDate}
             onChange={(e) => handleChange('unloadDate', e.target.value)}
             className="w-1/2"
+            required
           />
           <DateInputForm
             label="Время выгрузки"
@@ -317,9 +307,9 @@ export default function ContactForm() {
             value={formData.unloadTime}
             onChange={(e) => handleChange('unloadTime', e.target.value)}
             className="w-1/2"
+            required
           />
         </div>
-
         {unloadAddresses.slice(0, 6).includes(formData.unloadAddress) ? (
           <SelectForm
             label="Адрес выгрузки"
@@ -333,6 +323,7 @@ export default function ContactForm() {
             value={formData.unloadAddress}
             onChange={(e) => handleChange('unloadAddress', e.target.value)}
             placeholder="Город, улица, дом"
+            required
           />
         )}
         <CheckboxForm
@@ -340,7 +331,6 @@ export default function ContactForm() {
           checked={formData.hasUnloadContact}
           onChange={(val) => handleChange('hasUnloadContact', val)}
         />
-
         <SelectForm
           label="Тип груза"
           value={formData.cargoType}
@@ -412,7 +402,7 @@ export default function ContactForm() {
             onChange={(e) =>
               handleChange('cargoWeight', Number(e.target.value))
             }
-            min={0}
+            min={0.1}
             step={0.1}
           />
         </div>
@@ -425,13 +415,13 @@ export default function ContactForm() {
             </span>
           </div>
         )}
-
         <div className="sm:flex gap-2">
           <InputForm
             label="Контакт по заказу"
             value={formData.orderContact}
             onChange={(e) => handleChange('orderContact', e.target.value)}
             placeholder="Имя"
+            required
           />
           <InputForm
             type="tel"
@@ -441,6 +431,7 @@ export default function ContactForm() {
             onChange={(e) =>
               handleChange('orderPhone', formatPhoneNumber(e.target.value))
             }
+            required
           />
         </div>
         <CommentForm
@@ -449,7 +440,6 @@ export default function ContactForm() {
           onChange={(e) => handleChange('comment', e.target.value)}
           placeholder="Введите дополнительную информацию..."
         />
-
         <div className="p-2 grid gap-4">
           <TransportCost
             palletCount={formData.palletCount}
@@ -483,21 +473,13 @@ export default function ContactForm() {
             unloadAddress={formData.unloadAddress}
           />
         </div>
-
-        <div className="pt-6 grid justify-center gap-2">
-          {error && (
-            <p className="text-red-500 text-center text-sm font-bold mt-2">
-              {error}
-            </p>
-          )}
-          <Button
-            type="submit"
-            disabled={loading}
-            className="flex rounded-md bg-accent m-auto py-3 px-4 text-sm font-semibold text-white hover:bg-gray-300 hover:text-black focus:outline-none focus:border-1 focus:border-gray-300 transition-all cursor-pointer"
-          >
-            {loading ? 'Отправка...' : 'Отправить заявку'}
-          </Button>
-        </div>
+        <Button
+          type="submit"
+          disabled={loading}
+          className="flex rounded-md bg-accent m-auto py-3 px-4 text-sm font-semibold text-white hover:bg-gray-300 hover:text-black focus:outline-none focus:border-1 focus:border-gray-300 transition-all cursor-pointer"
+        >
+          {loading ? 'Отправка...' : 'Отправить заявку'}
+        </Button>
       </form>
     </main>
   )

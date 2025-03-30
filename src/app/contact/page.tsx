@@ -68,14 +68,14 @@ export default function ContactForm() {
     orgName: '',
     transportType: transportTypes[0],
     paymentMethod: paymentMethods[0],
-    loadDate: 'дд.мм.гггг',
+    loadDate: '',
     loadTime: '--:--',
     loadAddress: '',
     deliveryType: deliveryTypes[0],
     loadType: loadTypes[0],
     loadContact: '',
     loadPhone: '',
-    unloadDate: 'дд.мм.гггг',
+    unloadDate: '',
     unloadTime: '--:--',
     unloadAddress: unloadAddresses[0],
     hasUnloadContact: true,
@@ -108,9 +108,19 @@ export default function ContactForm() {
       Адрес_выгрузки: formData.unloadAddress,
       Контакт_на_выгрузке: formData.hasUnloadContact,
       Тип_груза: formData.cargoType,
-      Количество_коробов: formData.boxCount,
-      Количество_паллетов: formData.palletCount,
-      Размер_груза: `${formData.cargoLength}*${formData.cargoWeight}*${formData.cargoHeight}`,
+      Объём_груза: `${
+        !formData.boxCount && !formData.palletCount
+          ? ''
+          : !formData.palletCount
+          ? formData.boxCount + ' кор.'
+          : !formData.boxCount
+          ? formData.palletCount + ' пал.'
+          : formData.boxCount + ' кор.' + ' + ' + formData.palletCount + ' пал.'
+      }`,
+      Размер_груза:
+        !formData.cargoLength && !formData.cargoWeight && !formData.cargoHeight
+          ? ''
+          : `${formData.cargoLength}*${formData.cargoWeight}*${formData.cargoHeight}`,
       Вес_груза: formData.cargoWeight,
       Контакт_по_заказу_имя: formData.orderContact,
       Контакт_по_заказу_телефон: formData.orderPhone,
@@ -142,7 +152,11 @@ export default function ContactForm() {
     setLoading(true)
     e.preventDefault()
 
-    if (Object.values(formData).some((value) => value === '')) {
+    if (
+      Object.values([formData.loadDate, formData.unloadDate]).some(
+        (value) => value === ''
+      )
+    ) {
       setError('Все поля должны быть заполнены')
       setLoading(false)
       return

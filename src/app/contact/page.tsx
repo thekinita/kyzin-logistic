@@ -19,7 +19,7 @@ import { CommentForm } from '@/components/form-wrappers/CommentForm'
 const transportTypes = ['Маркетплейс', 'Транспортировка'] as const
 const paymentMethods = ['Наличными', 'Безналичный', 'Переводом'] as const
 const deliveryTypes = ['Короб', 'Паллет', 'Иное'] as const
-const loadTypes = ['Верхняя', 'Боковая', 'Гидроборт'] as const
+const loadTypes = ['Задняя', 'Верхняя', 'Боковая', 'Гидроборт'] as const
 const cargoTypes = [
   'Короб',
   'Паллет',

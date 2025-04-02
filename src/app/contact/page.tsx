@@ -201,7 +201,26 @@ export default function ContactForm() {
         cargoHeight: 0
       }))
     }
-  }, [formData.unloadAddress, formData.cargoType])
+    if (formData.loadDate === new Date().toISOString().split('T')[0]) {
+      const now = new Date()
+      now.setMinutes(now.getMinutes() + 3 * 60)
+      const roundedMinutes = now.getMinutes() <= 30 ? 30 : 0
+      if (roundedMinutes === 0) now.setHours(now.getHours() + 1)
+      now.setMinutes(roundedMinutes)
+      now.setSeconds(0)
+      now.setMilliseconds(0)
+
+      const time = now.toLocaleTimeString('ru-RU', {
+        hour: '2-digit',
+        minute: '2-digit'
+      })
+
+      setFormData((prev) => ({
+        ...prev,
+        loadTime: time
+      }))
+    }
+  }, [formData.unloadAddress, formData.cargoType, formData.loadDate])
 
   return (
     <main className="min-h-screen py-8 text-forlight dark:text-fordark">

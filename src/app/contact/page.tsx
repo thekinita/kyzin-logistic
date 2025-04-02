@@ -213,7 +213,18 @@ export default function ContactForm() {
   }, [formData.cargoType])
 
   useEffect(() => {
-    if (formData.loadDate === new Date().toISOString().split('T')[0]) {
+    const today = new Date()
+      .toLocaleDateString('ru-RU', {
+        timeZone: 'Europe/Moscow',
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit'
+      })
+      .split('.')
+      .reverse()
+      .join('-')
+
+    if (formData.loadDate === today) {
       const now = new Date()
       now.setMinutes(now.getMinutes() + 3 * 60)
       const roundedMinutes = now.getMinutes() <= 30 ? 30 : 0
@@ -223,6 +234,7 @@ export default function ContactForm() {
       now.setMilliseconds(0)
 
       const time = now.toLocaleTimeString('ru-RU', {
+        timeZone: 'Europe/Moscow',
         hour: '2-digit',
         minute: '2-digit'
       })

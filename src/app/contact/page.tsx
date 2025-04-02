@@ -395,7 +395,9 @@ export default function ContactForm() {
               <div className="sm:flex gap-2">
                 <InputForm
                   value={formData.unloadContact}
-                  onChange={(e) => handleChange('orderContact', e.target.value)}
+                  onChange={(e) =>
+                    handleChange('unloadContact', e.target.value)
+                  }
                   placeholder="Имя"
                   required
                 />
@@ -405,7 +407,7 @@ export default function ContactForm() {
                   placeholder="+7 (999) 999-99-99"
                   onChange={(e) =>
                     handleChange(
-                      'orderPhone',
+                      'unloadPhone',
                       formatPhoneNumber(e.target.value)
                     )
                   }

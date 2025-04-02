@@ -51,6 +51,8 @@ type FormData = {
   unloadTime: string
   unloadAddress: (typeof unloadAddresses)[number]
   hasUnloadContact: boolean
+  unloadContact: string
+  unloadPhone: string
   cargoType: (typeof cargoTypes)[number]
   boxCount: number
   palletCount: number
@@ -78,7 +80,9 @@ export default function ContactForm() {
     unloadDate: '',
     unloadTime: '--:--',
     unloadAddress: unloadAddresses[0],
-    hasUnloadContact: true,
+    hasUnloadContact: false,
+    unloadContact: '',
+    unloadPhone: '',
     cargoType: cargoTypes[0],
     boxCount: 0,
     palletCount: 0,
@@ -106,6 +110,8 @@ export default function ContactForm() {
       Дата_выгрузки: formData.unloadDate,
       Время_выгрузки: formData.unloadTime,
       Адрес_выгрузки: formData.unloadAddress,
+      Контакт_на_выгрузке_имя: formData.unloadContact,
+      Контакт_на_выгрузке_телефон: formData.unloadPhone,
       Тип_груза: formData.cargoType,
       Объём_груза: `${
         !formData.boxCount && !formData.palletCount
@@ -226,8 +232,8 @@ export default function ContactForm() {
     ) {
       setFormData((prev) => ({
         ...prev,
-        orderContact: '',
-        orderPhone: ''
+        unloadContact: '',
+        unloadPhone: ''
       }))
     }
   }, [
@@ -308,9 +314,10 @@ export default function ContactForm() {
           onChange={(val) => handleChange('loadType', val)}
           options={loadTypes}
         />
+
+        <h3 className="px-2 pt-2 text-sm font-medium">Контакт на загрузке</h3>
         <div className="sm:flex gap-2">
           <InputForm
-            label="Контакт на загрузке"
             value={formData.loadContact}
             onChange={(e) => handleChange('loadContact', e.target.value)}
             placeholder="Имя"
@@ -318,7 +325,6 @@ export default function ContactForm() {
           />
           <InputForm
             type="tel"
-            label="Телефон"
             value={formData.loadPhone}
             placeholder="+7 (999) 999-99-99"
             onChange={(e) =>
@@ -327,6 +333,7 @@ export default function ContactForm() {
             required
           />
         </div>
+
         <div className="sm:flex gap-2">
           <DateInputForm
             label="Дата выгрузки"
@@ -361,6 +368,39 @@ export default function ContactForm() {
             required
           />
         )}
+
+        {formData.transportType === 'Транспортировка' && (
+          <div>
+            <CheckboxForm
+              label="Контакт на выгрузке"
+              checked={formData.hasUnloadContact}
+              onChange={(val) => handleChange('hasUnloadContact', val)}
+            />
+            {formData.hasUnloadContact && (
+              <div className="sm:flex gap-2">
+                <InputForm
+                  value={formData.unloadContact}
+                  onChange={(e) => handleChange('orderContact', e.target.value)}
+                  placeholder="Имя"
+                  required
+                />
+                <InputForm
+                  type="tel"
+                  value={formData.unloadPhone}
+                  placeholder="+7 (999) 999-99-99"
+                  onChange={(e) =>
+                    handleChange(
+                      'orderPhone',
+                      formatPhoneNumber(e.target.value)
+                    )
+                  }
+                  required
+                />
+              </div>
+            )}
+          </div>
+        )}
+
         <SelectForm
           label="Тип груза"
           value={formData.cargoType}
@@ -446,39 +486,24 @@ export default function ContactForm() {
           </div>
         )}
 
-        {formData.transportType === 'Транспортировка' && (
-          <div>
-            <CheckboxForm
-              label="Контакт на выгрузке"
-              checked={formData.hasUnloadContact}
-              onChange={(val) => handleChange('hasUnloadContact', val)}
-            />
-            {formData.hasUnloadContact && (
-              <div className="sm:flex gap-2">
-                <InputForm
-                  label="Контакт по заказу"
-                  value={formData.orderContact}
-                  onChange={(e) => handleChange('orderContact', e.target.value)}
-                  placeholder="Имя"
-                  required
-                />
-                <InputForm
-                  type="tel"
-                  label="Телефон"
-                  value={formData.orderPhone}
-                  placeholder="+7 (999) 999-99-99"
-                  onChange={(e) =>
-                    handleChange(
-                      'orderPhone',
-                      formatPhoneNumber(e.target.value)
-                    )
-                  }
-                  required
-                />
-              </div>
-            )}
-          </div>
-        )}
+        <h3 className="px-2 pt-2 text-sm font-medium">Контакт по заказу</h3>
+        <div className="sm:flex gap-2">
+          <InputForm
+            value={formData.orderContact}
+            onChange={(e) => handleChange('orderContact', e.target.value)}
+            placeholder="Имя"
+            required
+          />
+          <InputForm
+            type="tel"
+            value={formData.orderPhone}
+            placeholder="+7 (999) 999-99-99"
+            onChange={(e) =>
+              handleChange('orderPhone', formatPhoneNumber(e.target.value))
+            }
+            required
+          />
+        </div>
 
         <CommentForm
           label="Комментарий"

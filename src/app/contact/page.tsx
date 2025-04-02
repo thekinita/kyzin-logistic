@@ -187,6 +187,9 @@ export default function ContactForm() {
     if (formData.unloadAddress === unloadAddresses[6]) {
       setFormData((prev) => ({ ...prev, unloadAddress: '' }))
     }
+  }, [formData.unloadAddress])
+
+  useEffect(() => {
     if (
       formData.cargoType === 'Короб' ||
       formData.cargoType === 'Укажу размеры'
@@ -207,6 +210,9 @@ export default function ContactForm() {
         cargoHeight: 0
       }))
     }
+  }, [formData.cargoType])
+
+  useEffect(() => {
     if (formData.loadDate === new Date().toISOString().split('T')[0]) {
       const now = new Date()
       now.setMinutes(now.getMinutes() + 3 * 60)
@@ -226,6 +232,9 @@ export default function ContactForm() {
         loadTime: time
       }))
     }
+  }, [formData.loadDate])
+
+  useEffect(() => {
     if (
       formData.transportType === 'Маркетплейс' ||
       !formData.hasUnloadContact
@@ -236,13 +245,7 @@ export default function ContactForm() {
         unloadPhone: ''
       }))
     }
-  }, [
-    formData.unloadAddress,
-    formData.cargoType,
-    formData.loadDate,
-    formData.transportType,
-    formData.hasUnloadContact
-  ])
+  }, [formData.transportType, formData.hasUnloadContact])
 
   return (
     <main className="min-h-screen py-8 text-forlight dark:text-fordark">
@@ -511,7 +514,7 @@ export default function ContactForm() {
           onChange={(e) => handleChange('comment', e.target.value)}
           placeholder="Введите дополнительную информацию..."
         />
-        <div className="p-2 grid gap-4">
+        <div className="px-2 py-4 grid gap-4">
           <TransportCost
             palletCount={formData.palletCount}
             boxCount={formData.boxCount}

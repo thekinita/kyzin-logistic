@@ -106,7 +106,6 @@ export default function ContactForm() {
       Дата_выгрузки: formData.unloadDate,
       Время_выгрузки: formData.unloadTime,
       Адрес_выгрузки: formData.unloadAddress,
-      Контакт_на_выгрузке: formData.hasUnloadContact,
       Тип_груза: formData.cargoType,
       Объём_груза: `${
         !formData.boxCount && !formData.palletCount
@@ -131,7 +130,8 @@ export default function ContactForm() {
         cargoType: formData.cargoType,
         cargoWeight: formData.cargoWeight,
         unloadAddress: formData.unloadAddress
-      })
+      }),
+      Дата_создания: new Date().toLocaleDateString('ru-RU')
     }
   }
 

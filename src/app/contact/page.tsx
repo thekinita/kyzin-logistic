@@ -137,7 +137,7 @@ export default function ContactForm() {
         cargoWeight: formData.cargoWeight,
         unloadAddress: formData.unloadAddress
       }),
-      Дата_создания: new Date().toLocaleDateString('ru-RU')
+      Дата_создания: new Date().toISOString().split('T')[0]
     }
   }
 

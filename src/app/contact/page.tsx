@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { Button } from '@headlessui/react'
 import formatPhoneNumber from '@/utils/formatPhoneNumber'
 import { SelectForm } from '@/components/form-wrappers/SelectForm'
 import { InputForm } from '@/components/form-wrappers/InputForm'
@@ -24,7 +23,7 @@ const cargoTypes = [
   'Короб',
   'Паллет',
   'Комбинированно',
-  'Укажу размеры'
+  'Укажу размеры',
 ] as const
 const unloadAddresses = [
   'Доставка до СЦ и РЦ по Москве и МО',
@@ -33,7 +32,7 @@ const unloadAddresses = [
   'Доставка до РЦ Казань (Зеленодольск)',
   'Доставка до Краснодара',
   'Доставка до Твери',
-  'Свой вариант'
+  'Свой вариант',
 ] as string[]
 
 type FormData = {
@@ -92,7 +91,7 @@ export default function ContactForm() {
     cargoWeight: 0,
     orderContact: '',
     orderPhone: '',
-    comment: ''
+    comment: '',
   })
 
   const data = {
@@ -135,20 +134,15 @@ export default function ContactForm() {
         boxCount: formData.boxCount,
         cargoType: formData.cargoType,
         cargoWeight: formData.cargoWeight,
-        unloadAddress: formData.unloadAddress
+        unloadAddress: formData.unloadAddress,
       }),
-      Дата_создания: new Date().toISOString().split('T')[0]
-    }
+      Дата_создания: new Date().toISOString().split('T')[0],
+    },
   }
 
   const router = useRouter()
   const [isFadeUp, setIsFadeUp] = useState(true)
   const [loading, setLoading] = useState(false)
-
-  const BASE_ID = 'app3Z47spktjduNdO'
-  const TABLE_ID = 'tblax98VKBtvi7BcF'
-  const AIRTABLE_API_TOKEN =
-    'patsDkazSgQd1s5bX.d16760086c47ed2225684777b1b0278b12e2c378cc52ba5b577982f00ced0c8a'
 
   const handleChange = <K extends keyof FormData>(key: K, value: FormData[K]) =>
     setFormData((prev) => ({ ...prev, [key]: value }))
@@ -159,14 +153,13 @@ export default function ContactForm() {
 
     try {
       const response = await fetch(
-        `https://api.airtable.com/v0/${BASE_ID}/${TABLE_ID}`,
+        'https://hook.eu2.make.com/02hynb77lvmt1ei7gz0jtiyi4myp7tlq',
         {
           method: 'POST',
           headers: {
-            Authorization: `Bearer ${AIRTABLE_API_TOKEN}`,
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
-          body: JSON.stringify(data)
+          body: JSON.stringify(data),
         }
       )
       if (response.status === 200) {
@@ -207,7 +200,7 @@ export default function ContactForm() {
         ...prev,
         cargoLength: 0,
         cargoWidth: 0,
-        cargoHeight: 0
+        cargoHeight: 0,
       }))
     }
   }, [formData.cargoType])
@@ -218,7 +211,7 @@ export default function ContactForm() {
         timeZone: 'Europe/Moscow',
         year: 'numeric',
         month: '2-digit',
-        day: '2-digit'
+        day: '2-digit',
       })
       .split('.')
       .reverse()
@@ -236,12 +229,12 @@ export default function ContactForm() {
       const time = now.toLocaleTimeString('ru-RU', {
         timeZone: 'Europe/Moscow',
         hour: '2-digit',
-        minute: '2-digit'
+        minute: '2-digit',
       })
 
       setFormData((prev) => ({
         ...prev,
-        loadTime: time
+        loadTime: time,
       }))
     }
   }, [formData.loadDate])
@@ -254,7 +247,7 @@ export default function ContactForm() {
       setFormData((prev) => ({
         ...prev,
         unloadContact: '',
-        unloadPhone: ''
+        unloadPhone: '',
       }))
     }
   }, [formData.transportType, formData.hasUnloadContact])
@@ -561,13 +554,13 @@ export default function ContactForm() {
             unloadAddress={formData.unloadAddress}
           />
         </div>
-        <Button
+        <button
           type="submit"
           disabled={loading}
           className="flex rounded-md bg-accent m-auto py-3 px-4 text-sm font-semibold text-white hover:bg-gray-300 hover:text-black focus:outline-none focus:border-1 focus:border-gray-300 transition-all cursor-pointer"
         >
           {loading ? 'Отправка...' : 'Отправить заявку'}
-        </Button>
+        </button>
       </form>
     </main>
   )

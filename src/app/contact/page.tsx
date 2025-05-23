@@ -95,49 +95,47 @@ export default function ContactForm() {
   })
 
   const data = {
-    fields: {
-      Организация: formData.orgName,
-      Тип_перевозки: formData.transportType,
-      Оплата: formData.paymentMethod,
-      Дата_загрузки: formData.loadDate,
-      Время_загрузки: formData.loadTime,
-      Адрес_загрузки: formData.loadAddress,
-      Тип_поставки: formData.deliveryType,
-      Тип_погрузки: formData.loadType,
-      Контакт_на_загрузке_имя: formData.loadContact,
-      Контакт_на_загрузке_телефон: formData.loadPhone,
-      Дата_выгрузки: formData.unloadDate,
-      Время_выгрузки: formData.unloadTime,
-      Адрес_выгрузки: formData.unloadAddress,
-      Контакт_на_выгрузке_имя: formData.unloadContact,
-      Контакт_на_выгрузке_телефон: formData.unloadPhone,
-      Тип_груза: formData.cargoType,
-      Объём_груза: `${
-        !formData.boxCount && !formData.palletCount
-          ? ''
-          : !formData.palletCount
-          ? formData.boxCount + ' кор.'
-          : !formData.boxCount
-          ? formData.palletCount + ' пал.'
-          : formData.boxCount + ' кор.' + ' + ' + formData.palletCount + ' пал.'
-      }`,
-      Размер_груза:
-        !formData.cargoLength && !formData.cargoWidth && !formData.cargoHeight
-          ? ''
-          : `${formData.cargoLength}*${formData.cargoWidth}*${formData.cargoHeight}`,
-      Вес_груза: formData.cargoWeight,
-      Контакт_по_заказу_имя: formData.orderContact,
-      Контакт_по_заказу_телефон: formData.orderPhone,
-      Комментарий: formData.comment,
-      Стоимость: calculateCost({
-        palletCount: formData.palletCount,
-        boxCount: formData.boxCount,
-        cargoType: formData.cargoType,
-        cargoWeight: formData.cargoWeight,
-        unloadAddress: formData.unloadAddress,
-      }),
-      Дата_создания: new Date().toISOString().split('T')[0],
-    },
+    Организация: formData.orgName,
+    Тип_перевозки: formData.transportType,
+    Оплата: formData.paymentMethod,
+    Дата_загрузки: formData.loadDate,
+    Время_загрузки: formData.loadTime,
+    Адрес_загрузки: formData.loadAddress,
+    Тип_поставки: formData.deliveryType,
+    Тип_погрузки: formData.loadType,
+    Контакт_на_загрузке_имя: formData.loadContact,
+    Контакт_на_загрузке_телефон: formData.loadPhone,
+    Дата_выгрузки: formData.unloadDate,
+    Время_выгрузки: formData.unloadTime,
+    Адрес_выгрузки: formData.unloadAddress,
+    Контакт_на_выгрузке_имя: formData.unloadContact,
+    Контакт_на_выгрузке_телефон: formData.unloadPhone,
+    Тип_груза: formData.cargoType,
+    Объём_груза: `${
+      !formData.boxCount && !formData.palletCount
+        ? ''
+        : !formData.palletCount
+        ? formData.boxCount + ' кор.'
+        : !formData.boxCount
+        ? formData.palletCount + ' пал.'
+        : formData.boxCount + ' кор.' + ' + ' + formData.palletCount + ' пал.'
+    }`,
+    Размер_груза:
+      !formData.cargoLength && !formData.cargoWidth && !formData.cargoHeight
+        ? ''
+        : `${formData.cargoLength}*${formData.cargoWidth}*${formData.cargoHeight}`,
+    Вес_груза: formData.cargoWeight,
+    Контакт_по_заказу_имя: formData.orderContact,
+    Контакт_по_заказу_телефон: formData.orderPhone,
+    Комментарий: formData.comment,
+    Стоимость: calculateCost({
+      palletCount: formData.palletCount,
+      boxCount: formData.boxCount,
+      cargoType: formData.cargoType,
+      cargoWeight: formData.cargoWeight,
+      unloadAddress: formData.unloadAddress,
+    }),
+    Дата_создания: new Date().toISOString().split('T')[0],
   }
 
   const router = useRouter()

@@ -23,7 +23,7 @@ const cargoTypes = [
   'Короб',
   'Паллет',
   'Комбинированно',
-  'Укажу размеры',
+  'Укажу размеры'
 ] as const
 const unloadAddresses = [
   'Доставка до СЦ и РЦ по Москве и МО',
@@ -32,7 +32,7 @@ const unloadAddresses = [
   'Доставка до РЦ Казань (Зеленодольск)',
   'Доставка до Краснодара',
   'Доставка до Твери',
-  'Свой вариант',
+  'Свой вариант'
 ] as string[]
 
 type FormData = {
@@ -91,56 +91,63 @@ export default function ContactForm() {
     cargoWeight: 0,
     orderContact: '',
     orderPhone: '',
-    comment: '',
+    comment: ''
   })
 
   const data = {
-    Организация: formData.orgName,
-    Тип_перевозки: formData.transportType,
-    Оплата: formData.paymentMethod,
-    Дата_загрузки: formData.loadDate,
-    Время_загрузки: formData.loadTime,
-    Адрес_загрузки: formData.loadAddress,
-    Тип_поставки: formData.deliveryType,
-    Тип_погрузки: formData.loadType,
-    Контакт_на_загрузке_имя: formData.loadContact,
-    Контакт_на_загрузке_телефон: formData.loadPhone,
-    Дата_выгрузки: formData.unloadDate,
-    Время_выгрузки: formData.unloadTime,
-    Адрес_выгрузки: formData.unloadAddress,
-    Контакт_на_выгрузке_имя: formData.unloadContact,
-    Контакт_на_выгрузке_телефон: formData.unloadPhone,
-    Тип_груза: formData.cargoType,
-    Объём_груза: `${
-      !formData.boxCount && !formData.palletCount
-        ? ''
-        : !formData.palletCount
-        ? formData.boxCount + ' кор.'
-        : !formData.boxCount
-        ? formData.palletCount + ' пал.'
-        : formData.boxCount + ' кор.' + ' + ' + formData.palletCount + ' пал.'
-    }`,
-    Размер_груза:
-      !formData.cargoLength && !formData.cargoWidth && !formData.cargoHeight
-        ? ''
-        : `${formData.cargoLength}*${formData.cargoWidth}*${formData.cargoHeight}`,
-    Вес_груза: formData.cargoWeight,
-    Контакт_по_заказу_имя: formData.orderContact,
-    Контакт_по_заказу_телефон: formData.orderPhone,
-    Комментарий: formData.comment,
-    Стоимость: calculateCost({
-      palletCount: formData.palletCount,
-      boxCount: formData.boxCount,
-      cargoType: formData.cargoType,
-      cargoWeight: formData.cargoWeight,
-      unloadAddress: formData.unloadAddress,
-    }),
-    Дата_создания: new Date().toISOString().split('T')[0],
+    fields: {
+      Организация: formData.orgName,
+      Тип_перевозки: formData.transportType,
+      Оплата: formData.paymentMethod,
+      Дата_загрузки: formData.loadDate,
+      Время_загрузки: formData.loadTime,
+      Адрес_загрузки: formData.loadAddress,
+      Тип_поставки: formData.deliveryType,
+      Тип_погрузки: formData.loadType,
+      Контакт_на_загрузке_имя: formData.loadContact,
+      Контакт_на_загрузке_телефон: formData.loadPhone,
+      Дата_выгрузки: formData.unloadDate,
+      Время_выгрузки: formData.unloadTime,
+      Адрес_выгрузки: formData.unloadAddress,
+      Контакт_на_выгрузке_имя: formData.unloadContact,
+      Контакт_на_выгрузке_телефон: formData.unloadPhone,
+      Тип_груза: formData.cargoType,
+      Объём_груза: `${
+        !formData.boxCount && !formData.palletCount
+          ? ''
+          : !formData.palletCount
+          ? formData.boxCount + ' кор.'
+          : !formData.boxCount
+          ? formData.palletCount + ' пал.'
+          : formData.boxCount + ' кор.' + ' + ' + formData.palletCount + ' пал.'
+      }`,
+      Размер_груза:
+        !formData.cargoLength && !formData.cargoWidth && !formData.cargoHeight
+          ? ''
+          : `${formData.cargoLength}*${formData.cargoWidth}*${formData.cargoHeight}`,
+      Вес_груза: formData.cargoWeight,
+      Контакт_по_заказу_имя: formData.orderContact,
+      Контакт_по_заказу_телефон: formData.orderPhone,
+      Комментарий: formData.comment,
+      Стоимость: calculateCost({
+        palletCount: formData.palletCount,
+        boxCount: formData.boxCount,
+        cargoType: formData.cargoType,
+        cargoWeight: formData.cargoWeight,
+        unloadAddress: formData.unloadAddress
+      }),
+      Дата_создания: new Date().toISOString().split('T')[0]
+    }
   }
 
   const router = useRouter()
   const [isFadeUp, setIsFadeUp] = useState(true)
   const [loading, setLoading] = useState(false)
+
+  const BASE_ID = 'app3Z47spktjduNdO'
+  const TABLE_ID = 'tblax98VKBtvi7BcF'
+  const AIRTABLE_API_TOKEN =
+    'patsDkazSgQd1s5bX.d16760086c47ed2225684777b1b0278b12e2c378cc52ba5b577982f00ced0c8a'
 
   const handleChange = <K extends keyof FormData>(key: K, value: FormData[K]) =>
     setFormData((prev) => ({ ...prev, [key]: value }))
@@ -151,13 +158,14 @@ export default function ContactForm() {
 
     try {
       const response = await fetch(
-        'https://hook.eu2.make.com/02hynb77lvmt1ei7gz0jtiyi4myp7tlq',
+        `https://api.airtable.com/v0/${BASE_ID}/${TABLE_ID}`,
         {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+            Authorization: `Bearer ${AIRTABLE_API_TOKEN}`,
+            'Content-Type': 'application/json'
           },
-          body: JSON.stringify(data),
+          body: JSON.stringify(data)
         }
       )
       if (response.status === 200) {
@@ -198,7 +206,7 @@ export default function ContactForm() {
         ...prev,
         cargoLength: 0,
         cargoWidth: 0,
-        cargoHeight: 0,
+        cargoHeight: 0
       }))
     }
   }, [formData.cargoType])
@@ -209,7 +217,7 @@ export default function ContactForm() {
         timeZone: 'Europe/Moscow',
         year: 'numeric',
         month: '2-digit',
-        day: '2-digit',
+        day: '2-digit'
       })
       .split('.')
       .reverse()
@@ -227,12 +235,12 @@ export default function ContactForm() {
       const time = now.toLocaleTimeString('ru-RU', {
         timeZone: 'Europe/Moscow',
         hour: '2-digit',
-        minute: '2-digit',
+        minute: '2-digit'
       })
 
       setFormData((prev) => ({
         ...prev,
-        loadTime: time,
+        loadTime: time
       }))
     }
   }, [formData.loadDate])
@@ -245,7 +253,7 @@ export default function ContactForm() {
       setFormData((prev) => ({
         ...prev,
         unloadContact: '',
-        unloadPhone: '',
+        unloadPhone: ''
       }))
     }
   }, [formData.transportType, formData.hasUnloadContact])
